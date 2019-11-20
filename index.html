@@ -13,17 +13,26 @@
     />
     <title>Weather Dashboard</title>
   </head>
+  
   <body>
       <div class="container">
-      <h1>Weather Dashboard</h1>
-      <div id="searchArea">
+         <h1>Weather Dashboard</h1>
+        <div id="searchArea">
+                <form id="citySearch">
+                        <label for="city-input">Search by city:</label>
+                        <input type="text" id="city-input">
+                        <br>
+                  
+                        <!-- Button triggers new movie to be added -->
+                        <input id="add-city" type="submit" value="Search">
+                      </form>
+        </div>
+         <div id="displayWeather">
 
+        </div>
       </div>
-      <div id="displayWeather">
-
-      </div>
-      </div>
+     
       <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="assets/script.js"></script>
+      <script src="assets/script.js"></script>
   </body>
 </html>
