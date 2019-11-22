@@ -5,9 +5,9 @@
 // Upon opening the browser, the user should be able to click a button that says "Show History" and all recently searched cities will appear
 // From there, the user should be able to click on a recently searched city to see forecast
 
-// Fix weather icons. They do not appear to be working inside the loop
-
 // Add CSS 
+
+// bands-in-town, nyt-example, working-movie-app
 
 
 
@@ -31,17 +31,18 @@ $.ajax({
 })
         .then(function(response) {
             console.log(response);
-
-            var makeImg = $("<img id='wIcon' src='' alt='Weather Icon'>");
-                            var iconCode = response.weather[0].icon;
-                            var iconurl = "http://openweathermap.org/img/w/" + iconCode + ".png";
-                            $('#wIcon').attr('src', iconurl);
+            var iconCode = response.weather[0].icon;
+            var makeImg = $("<img class='wIcon' src='http://openweathermap.org/img/w/" + iconCode + ".png' alt='Weather Icon'>");
+                            
+                            
              var long = response.coord.lon;
              nLong = JSON.stringify(long)
              var lat = response.coord.lat;
              nLat = JSON.stringify(lat);
              var city = response.name;
              var todayForecast = response.main.temp;
+             var todayWeather = response.weather[0].main;
+             var todayDesc = response.weather[0].description;
              var todayWind = response.wind.speed;
              var todayHumidity = response.main.humidity;
              
@@ -50,6 +51,7 @@ $.ajax({
 
                         day.append( 
                              "Today's Forecast: " + todayForecast + " " +
+                             todayWeather + " " + todayDesc + " " +
                              "Wind Speed: " + todayWind + "MPH " +
                             "Humidity: " + todayHumidity + "% "
                         );
@@ -96,21 +98,23 @@ function getFourDayForecast(city){
                         i == 22 ||
                         i == 30){
                             console.log(response.list[i]);
-                            var makeImg = $("<img id='wIcon' src='' alt='Weather Icon'>");
                             var iconCode = response.list[i].weather[0].icon;
-                            var iconurl = "http://openweathermap.org/img/w/" + iconCode + ".png";
-                            $('#wIcon').attr('src', iconurl);
+                            var makeImg = $("<img class='wIcon' src='http://openweathermap.org/img/w/" + iconCode + ".png' alt='Weather Icon'>");
+                            
 
                              var date = response.list[i].dt_txt;
                              var forecast = response.list[i].main.temp;
                              var wind = response.list[i].wind.speed;
                              var humidity = response.list[i].main.humidity;
+                             var weather = response.list[i].weather[0].main;
+                            var desc = response.list[i].weather[0].description;
     
                                 var day = $("<div>")
     
                                     day.append( 
                                       "Date: " + date + " " +
                                      "Forecast: " + forecast + "F " +
+                                     " " + weather + " " + desc + " " +
                                      "Wind Speed: " +  wind + "MPH " +
                                      "Humidity: " + humidity + "% ");
                                         $("#displayWeather").append(makeImg);
