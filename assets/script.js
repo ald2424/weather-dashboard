@@ -40,18 +40,19 @@ $.ajax({
              nLat = JSON.stringify(lat);
              var city = response.name;
              var todayForecast = response.main.temp;
-             var todayWeather = response.weather[0].main;
              var todayDesc = response.weather[0].description;
              var todayWind = response.wind.speed;
              var todayHumidity = response.main.humidity;
+             var newLine = $("<br>");
              
                  $("#displayWeather").append("City: " + city+ "<br>");
                  var day = $("<div class='col-sm-2 next'>")
                     day.append(makeImg);
                         day.append( 
-                             "Today's Forecast: " + todayForecast + " " +
-                             todayWeather + " " + todayDesc + " " +
-                             "Wind Speed: " + todayWind + "MPH " +
+                             "Today's Forecast: " + "<br>" +
+                              todayForecast + "<br>" +
+                             todayDesc + "<br> " +
+                             "Wind Speed: " + todayWind + "MPH " + "<br>" +
                             "Humidity: " + todayHumidity + "% "
                         );
                         
@@ -105,16 +106,15 @@ function getFourDayForecast(city){
                              var forecast = response.list[i].main.temp;
                              var wind = response.list[i].wind.speed;
                              var humidity = response.list[i].main.humidity;
-                             var weather = response.list[i].weather[0].main;
-                            var desc = response.list[i].weather[0].description;
+                             var desc = response.list[i].weather[0].description;
     
                                 var day = $("<div class='col-sm-2 next'>")
                                     day.append(makeImg);
                                     day.append( 
-                                      "Date: " + date + " " +
+                                      "Date: " + date + "<br> " +
                                      "Forecast: " + forecast + "F " +
-                                     " " + weather + " " + desc + " " +
-                                     "Wind Speed: " +  wind + "MPH " +
+                                     "<br> " + desc + "<br> " +
+                                     "Wind Speed: " +  wind + "MPH " + "<br>" +
                                      "Humidity: " + humidity + "% ");
                                         // $("#displayWeather").append(makeImg);
                                          $("#displayWeather").append(day);
