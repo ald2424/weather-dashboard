@@ -31,8 +31,7 @@ $.ajax({
 })
         .then(function(response) {
             console.log(response);
-            var iconCode = response.weather[0].icon;
-            var makeImg = $("<img class='wIcon' src='http://openweathermap.org/img/w/" + iconCode + ".png' alt='Weather Icon'>");
+            var makeImg = $("<img class='wIcon onTop' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt='Weather Icon'>");
                             
                             
              var long = response.coord.lon;
@@ -47,15 +46,15 @@ $.ajax({
              var todayHumidity = response.main.humidity;
              
                  $("#displayWeather").append("City: " + city+ "<br>");
-                 var day = $("<div>")
-
+                 var day = $("<div class='col-sm-2 next'>")
+                    day.append(makeImg);
                         day.append( 
                              "Today's Forecast: " + todayForecast + " " +
                              todayWeather + " " + todayDesc + " " +
                              "Wind Speed: " + todayWind + "MPH " +
                             "Humidity: " + todayHumidity + "% "
                         );
-                        $("#displayWeather").append(makeImg); 
+                        
                         $("#displayWeather").append(day);
 
                         // uvIndex(nLat, nLong); 
@@ -98,8 +97,8 @@ function getFourDayForecast(city){
                         i == 22 ||
                         i == 30){
                             console.log(response.list[i]);
-                            var iconCode = response.list[i].weather[0].icon;
-                            var makeImg = $("<img class='wIcon' src='http://openweathermap.org/img/w/" + iconCode + ".png' alt='Weather Icon'>");
+                            // var iconCode = response.list[i].weather[0].icon;
+                            var makeImg = $("<img class='wIcon onTop' src='http://openweathermap.org/img/w/" + response.list[i].weather[0].icon + ".png' alt='Weather Icon'>");
                             
 
                              var date = response.list[i].dt_txt;
@@ -109,15 +108,15 @@ function getFourDayForecast(city){
                              var weather = response.list[i].weather[0].main;
                             var desc = response.list[i].weather[0].description;
     
-                                var day = $("<div>")
-    
+                                var day = $("<div class='col-sm-2 next'>")
+                                    day.append(makeImg);
                                     day.append( 
                                       "Date: " + date + " " +
                                      "Forecast: " + forecast + "F " +
                                      " " + weather + " " + desc + " " +
                                      "Wind Speed: " +  wind + "MPH " +
                                      "Humidity: " + humidity + "% ");
-                                        $("#displayWeather").append(makeImg);
+                                        // $("#displayWeather").append(makeImg);
                                          $("#displayWeather").append(day);
                                          
                                 }
