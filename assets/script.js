@@ -45,15 +45,15 @@ $.ajax({
              var todayHumidity = response.main.humidity;
              var newLine = $("<br>");
              
-                 $("#displayWeather").append("City: " + city+ "<br>");
+                 
                  var day = $("<div class='col-sm-2 next'>")
+                    day.append("Today");
                     day.append(makeImg);
-                        day.append( 
-                             "Today's Forecast: " + "<br>" +
-                              todayForecast + "<br>" +
-                             todayDesc + "<br> " +
-                             "Wind Speed: " + todayWind + "MPH " + "<br>" +
-                            "Humidity: " + todayHumidity + "% "
+                        day.append(  
+                              todayForecast + "<br>" +                          
+                              todayDesc + "<br> " +
+                              "Wind Speed: " + todayWind + "MPH " + "<br>" +
+                              "Humidity: " + todayHumidity + "% "
                         );
                         
                         $("#displayWeather").append(day);
@@ -78,6 +78,17 @@ $.ajax({
 
  // This gets the next 4 days forecast
 function getFourDayForecast(city){
+    
+    // The array and the variables are used to add the day of the week to the forecast
+    var days = [];
+    var tom = moment().add(1, 'days').format('ddd');
+    days.push(tom);
+    var thirdDay = moment().add(2, 'days').format('ddd');
+    days.push(thirdDay);
+    var fourthDay = moment().add(3, 'days').format('ddd');
+    days.push(fourthDay);
+    var fifthDay = moment().add(4, 'days').format('ddd');
+    days.push(fifthDay);
 
     var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q="+ city +"&units=imperial&appid=" + APIKey;
     
@@ -87,42 +98,40 @@ function getFourDayForecast(city){
     })
             // We store all of the retrieved data inside of an object called "response"
             .then(function(response) {
-                console.log(forecastURL);
-              
+                
                 
             // Loops through the entire response array
                 for(var i = 0; i < response.list.length; i++){
-                    // Pulls out 12:00 forecast for days 2 - 4
-                    if(i == 6 ||
-                        i == 14 ||
-                        i == 22 ||
-                        i == 30){
-                            console.log(response.list[i]);
-                            // var iconCode = response.list[i].weather[0].icon;
-                            var makeImg = $("<img class='wIcon onTop' src='http://openweathermap.org/img/w/" + response.list[i].weather[0].icon + ".png' alt='Weather Icon'>");
+                    for(var x = 0; x < days.length; x++){
+                    // Pulls out 12:00 forecast for days 2 - 4 and assigns the day of the week
+                         if((i == 6 && x == 0)||
+                            (i == 14 && x == 1) ||
+                            (i == 22 && x == 2) ||
+                            (i == 30 && x ==3)){
                             
-
-                             var date = response.list[i].dt_txt;
+                             var makeImg = $("<img class='wIcon onTop' src='http://openweathermap.org/img/w/" + response.list[i].weather[0].icon + ".png' alt='Weather Icon'>");
+                             var date = days[x];
                              var forecast = response.list[i].main.temp;
                              var wind = response.list[i].wind.speed;
                              var humidity = response.list[i].main.humidity;
                              var desc = response.list[i].weather[0].description;
     
                                 var day = $("<div class='col-sm-2 next'>")
+                                    day.append(date + "<br> ");
                                     day.append(makeImg);
                                     day.append( 
-                                      "Date: " + date + "<br> " +
-                                     "Forecast: " + forecast + "F " +
-                                     "<br> " + desc + "<br> " +
-                                     "Wind Speed: " +  wind + "MPH " + "<br>" +
-                                     "Humidity: " + humidity + "% ");
-                                        // $("#displayWeather").append(makeImg);
+                                        forecast + "F " +
+                                        "<br> " + desc + "<br> " +
+                                        "Wind Speed: " +  wind + "MPH " + "<br>" +
+                                        "Humidity: " + humidity + "% ");
+                                        
                                          $("#displayWeather").append(day);
                                          
-                                }
-                 }
-            });
-        }
+                            }
+                        }
+                    }
+                });
+    }
 
 function rendercities(){
      $("#displayWeather").empty();
@@ -145,6 +154,3 @@ function rendercities(){
         
         rendercities();
     });
-
-
-    

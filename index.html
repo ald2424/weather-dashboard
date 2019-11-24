@@ -8,43 +8,32 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
-    <link 
-    rel="stylesheet" href="assets/style.css" 
-    />
+    <link rel="stylesheet" href="assets/style.css"/>
     <title>Weather Dashboard</title>
   </head>
   
   <body>
-
-
-      <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h1 class="display-4 text-center">Weather Dashboard</h1>
-            <div id="searchArea">
-              <form id="citySearch" class="form-inline">
-                <div class="form-group mx-sm-3">
-                    <label for="city-input" class="sr-only">Search by city:</label>
-                    <input type="text" class="form-control" id="city-input" placeholder="city">
-                    <button type="submit" id="add-city" class="btn btn-primary ml-2">Search</button>
-                </div>
-              </form>
-             </div>
-            </div>
-        
-
-
-
-
-
-
-
       
+        <div class="jumbotron jumbotron-fluid">
+           <h1 class="display-4 text-center">Weather Dashboard</h1>
+        </div>
+        <div id="searchArea">
+            <form id="citySearch" class="form-inline">
+              <div class="form-group mx-sm-3">
+                  <label for="city-input" class="sr-only">Search by city:</label>
+                  <input type="text" class="form-control-sm" id="city-input" placeholder="Enter City">
+                  <button type="submit" id="add-city" class="btn-sm btnColor ml-2">Search</button>
+              </div>
+            </form>
+           </div>
+          <br>
          <div id="displayWeather" class="center">
 
-        </div>
-      </div>
+         </div>
+    
      
       <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
       <script src="assets/script.js"></script>
   </body>
 </html>

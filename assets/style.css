@@ -6,8 +6,10 @@ h1{
     text-align: center;
     background-color:lightblue;
     color: white;
-    margin: 2px;
+    margin: 6px;
     padding: 5px;
+    height: 250px;
+    font: 1.5em;
 
 }
 .onTop{
@@ -16,4 +18,12 @@ h1{
 }
 .center{
     text-align: center;
+}
+.btnColor{
+    background-color: lightblue;
+    color: rgb(10, 184, 241);
+    font-weight: 700;
+}
+#searchArea{
+    margin-left:85px;
 }
