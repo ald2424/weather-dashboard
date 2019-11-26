@@ -18,17 +18,11 @@ $.ajax({
             
             var makeImg = $("<img class='wIcon floatLeft' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt='Weather Icon'>");
                             
-                            
-             var long = response.coord.lon;
-             nLong = JSON.stringify(long)
-             var lat = response.coord.lat;
-             nLat = JSON.stringify(lat);
              var city = response.name;
              var todayForecast = Math.trunc(response.main.temp);
              var todayDesc = response.weather[0].description;
              var todayWind = response.wind.speed;
              var todayHumidity = response.main.humidity;
-             var newLine = $("<br>");
              
                  
                  var day = $("<div>")
