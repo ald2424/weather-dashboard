@@ -71,7 +71,7 @@ function getFourDayForecast(city){
         method: "GET"
     })
             .then(function(response) {
-                console.log(response);  
+                  
                 
             // Loops through the entire response array
                 for(var i = 0; i < response.list.length; i++){
