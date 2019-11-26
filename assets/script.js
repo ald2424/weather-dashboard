@@ -1,22 +1,7 @@
-// *******************TO DO*********************
-// Get UV index working. It needs to work by pulling the coordinates out of the weatherURL API. Right now it returns [Object, Object] or bad request depending on where I run the function
-
-// Store user input into local storage. 
-// Upon opening the browser, the user should be able to click a button that says "Show History" and all recently searched cities will appear
-// From there, the user should be able to click on a recently searched city to see forecast
-
-// Add CSS 
-
-// bands-in-town, nyt-example, working-movie-app
-
-
-
-
-// var cityName = [];
+var cityName = [];
 var APIKey = "26bf907883ee024cda544990d427d76a";
-// var nLong;
-// var nLat;
 
+init();
 
 // This gets today's forecast
 function getTodaysForcast(city){
@@ -30,8 +15,8 @@ $.ajax({
     method: "GET"
 })
         .then(function(response) {
-            console.log(response);
-            var makeImg = $("<img class='wIcon onTop' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt='Weather Icon'>");
+            
+            var makeImg = $("<img class='wIcon floatLeft' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt='Weather Icon'>");
                             
                             
              var long = response.coord.lon;
@@ -39,42 +24,29 @@ $.ajax({
              var lat = response.coord.lat;
              nLat = JSON.stringify(lat);
              var city = response.name;
-             var todayForecast = response.main.temp;
+             var todayForecast = Math.trunc(response.main.temp);
              var todayDesc = response.weather[0].description;
              var todayWind = response.wind.speed;
              var todayHumidity = response.main.humidity;
              var newLine = $("<br>");
              
                  
-                 var day = $("<div class='col-sm-2 next'>")
-                    day.append("Today");
-                    day.append(makeImg);
-                        day.append(  
-                              todayForecast + "<br>" +                          
+                 var day = $("<div>")
+                    day.append("<h1>" + city + "'s Forecast" + "</h1>"
+                                + "<h2 class='floatLeft'>" + "Today" + "</h2>");
+                        day.append(makeImg);
+                        day.append(  "<div class='clear'>" + 
+                              "<br>" +
+                              "Temperature: " + todayForecast + "F" + "<br>" +                          
                               todayDesc + "<br> " +
                               "Wind Speed: " + todayWind + "MPH " + "<br>" +
-                              "Humidity: " + todayHumidity + "% "
+                              "Humidity: " + todayHumidity + "% " + "</div>"
                         );
                         
-                        $("#displayWeather").append(day);
-
-                        // uvIndex(nLat, nLong); 
+                        $("#todaysForecast").append(day);
                     
         });
 }
-// function uvIndex(lat, long){
-
-//         var uvUrl = "http://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + long;
-
-//                             $.ajax({
-//                                 url: uvUrl,
-//                                 method: "GET"
-//                             })
-//                             .then(function(response){
-//                                 console.log("UV Index: " + response);
-//                             })
-    
-//                         }
 
  // This gets the next 4 days forecast
 function getFourDayForecast(city){
@@ -89,6 +61,8 @@ function getFourDayForecast(city){
     days.push(fourthDay);
     var fifthDay = moment().add(4, 'days').format('ddd');
     days.push(fifthDay);
+    var sixthDay = moment().add(5, 'days').format('ddd');
+    days.push(sixthDay);
 
     var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q="+ city +"&units=imperial&appid=" + APIKey;
     
@@ -96,9 +70,8 @@ function getFourDayForecast(city){
         url: forecastURL,
         method: "GET"
     })
-            // We store all of the retrieved data inside of an object called "response"
             .then(function(response) {
-                
+                console.log(response);  
                 
             // Loops through the entire response array
                 for(var i = 0; i < response.list.length; i++){
@@ -107,16 +80,17 @@ function getFourDayForecast(city){
                          if((i == 6 && x == 0)||
                             (i == 14 && x == 1) ||
                             (i == 22 && x == 2) ||
-                            (i == 30 && x ==3)){
+                            (i == 30 && x ==3) ||
+                            (i == 38 && x == 4)){
                             
                              var makeImg = $("<img class='wIcon onTop' src='http://openweathermap.org/img/w/" + response.list[i].weather[0].icon + ".png' alt='Weather Icon'>");
                              var date = days[x];
-                             var forecast = response.list[i].main.temp;
+                             var forecast = Math.trunc(response.list[i].main.temp);
                              var wind = response.list[i].wind.speed;
                              var humidity = response.list[i].main.humidity;
                              var desc = response.list[i].weather[0].description;
     
-                                var day = $("<div class='col-sm-2 next'>")
+                                var day = $("<span class='col-lg-2 next'>")
                                     day.append(date + "<br> ");
                                     day.append(makeImg);
                                     day.append( 
@@ -133,24 +107,74 @@ function getFourDayForecast(city){
                 });
     }
 
+// This function takes the user's input and retrieves the data from the weather api as well as push the input into the array declared at the top of this page
 function rendercities(){
      $("#displayWeather").empty();
+     $("#todaysForecast").empty();
 
         var cityInput = $("#city-input").val().trim();
     
-        // for (var i = 0; i < cityName.length; i++) {
             getTodaysForcast(cityInput);
             getFourDayForecast(cityInput);  
-                     
-    
-    // }
-    }
+
+// Checks to see if the city entered already exists in the cityName array. If so, it does not add it again
+            if (cityName.includes(cityInput)){
+                return;
+            }
+            else{
+                 cityName.push(cityInput);
+            }
+            storeCities();
+            cityHistory();       
+}
     
     
     $("#add-city").on("click", function(event) {
         event.preventDefault();
-        // var input = $("#city-input").val().trim();
-        // cityName.push(input);
-        
+        event.stopPropagation()
         rendercities();
+        storeCities();
     });
+
+function storeCities(){
+        localStorage.setItem("cityName", JSON.stringify(cityName));
+}
+
+// This function creates buttons to create a history of recently searched cities
+ function cityHistory() {
+        $("#searchHistory").empty();
+         for (var i = 0; i < cityName.length; i++) {
+             var city = cityName[i];
+             var li = $("<li class='styleList'>");
+                 li.css("list-style-type", "none");
+             var button = $("<button class='btn btn-link'>" + city + "</button>");
+                 li.append(button);
+            $("#searchHistory").append(li);
+          
+        }
+}
+// Displays the buttons for all recently searched cities
+function init() {
+        var storedCities = JSON.parse(localStorage.getItem("cityName"));
+        if (storedCities !== null) {
+          cityName = storedCities;
+        }
+        cityHistory()
+}
+
+// Checks to see if a button was clicked, if so, it takes the text of the button and displays the weather for that city
+$( "li" ).click(function( event ) {
+        event.preventDefault()
+        event.stopPropagation()
+        
+        var target = $( event.target );
+            if ( target.is( "button" ) ) {
+                $("#displayWeather").empty(); 
+                $("#todaysForecast").empty();  
+                    
+                var searchedCity = $(event.target).text()
+                    getTodaysForcast(searchedCity);
+                    getFourDayForecast(searchedCity);
+             
+            }
+});
