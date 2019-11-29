@@ -1,5 +1,6 @@
 var cityName = [];
 var APIKey = "26bf907883ee024cda544990d427d76a";
+var cityInput;
 
 init();
 
@@ -106,7 +107,7 @@ function rendercities(){
      $("#displayWeather").empty();
      $("#todaysForecast").empty();
 
-        var cityInput = $("#city-input").val().trim();
+        cityInput = $("#city-input").val().trim();
     
             getTodaysForcast(cityInput);
             getFourDayForecast(cityInput);  
@@ -147,6 +148,23 @@ function storeCities(){
           
         }
 }
+// Checks to see if a button was clicked, if so, it takes the text of the button and displays the weather for that city
+$( "li" ).click(function( event ) {
+    event.preventDefault()
+    event.stopPropagation()
+    
+    var target = $( event.target );
+        if ( target.is( "button" ) ) {
+            $("#displayWeather").empty(); 
+            $("#todaysForecast").empty();  
+                
+            cityInput = $(event.target).text()
+                getTodaysForcast(cityInput);
+                getFourDayForecast(cityInput);
+         
+        }
+});
+
 // Displays the buttons for all recently searched cities
 function init() {
         var storedCities = JSON.parse(localStorage.getItem("cityName"));
@@ -156,19 +174,3 @@ function init() {
         cityHistory()
 }
 
-// Checks to see if a button was clicked, if so, it takes the text of the button and displays the weather for that city
-$( "li" ).click(function( event ) {
-        event.preventDefault()
-        event.stopPropagation()
-        
-        var target = $( event.target );
-            if ( target.is( "button" ) ) {
-                $("#displayWeather").empty(); 
-                $("#todaysForecast").empty();  
-                    
-                var searchedCity = $(event.target).text()
-                    getTodaysForcast(searchedCity);
-                    getFourDayForecast(searchedCity);
-             
-            }
-});
