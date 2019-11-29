@@ -3,6 +3,7 @@ var APIKey = "26bf907883ee024cda544990d427d76a";
 var cityInput;
 
 init();
+searchResults();
 
 // This gets today's forecast
 function getTodaysForcast(city){
@@ -120,7 +121,8 @@ function rendercities(){
                  cityName.push(cityInput);
             }
             storeCities();
-            cityHistory();       
+            cityHistory(); 
+            searchResults();      
 }
     
     
@@ -149,6 +151,7 @@ function storeCities(){
         }
 }
 // Checks to see if a button was clicked, if so, it takes the text of the button and displays the weather for that city
+function searchResults(){
 $( "li" ).click(function( event ) {
     event.preventDefault()
     event.stopPropagation()
@@ -164,6 +167,7 @@ $( "li" ).click(function( event ) {
          
         }
 });
+}
 
 // Displays the buttons for all recently searched cities
 function init() {

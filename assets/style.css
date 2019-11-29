@@ -9,7 +9,8 @@
     color: white;
     margin: 10px;
     padding: 5px;
-    
+    min-width: 166px;
+    min-height: 204px;
     font: 1.5em;
     width: 350px;
 
@@ -46,7 +47,10 @@
     border: 1px solid lightgray;
     padding: 7px;
 }
-/* #displayWeather{
-    
-    position: fixed;
-} */
+#displayWeather{
+    width: 995px;
+    height: 248px;
+    padding-bottom: 2px;
+    margin: 1px;
+}
+
