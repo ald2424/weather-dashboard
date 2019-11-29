@@ -1,3 +1,4 @@
+$(document).ready(function() {
 var cityName = [];
 var APIKey = "26bf907883ee024cda544990d427d76a";
 var cityInput;
@@ -21,7 +22,7 @@ $.ajax({
             var makeImg = $("<img class='wIcon floatLeft' src='http://openweathermap.org/img/w/" + response.weather[0].icon + ".png' alt='Weather Icon'>");
                             
              var city = response.name;
-             var todayForecast = Math.trunc(response.main.temp);
+             var todayForecast = Math.round(response.main.temp);
              var todayDesc = response.weather[0].description;
              var todayWind = response.wind.speed;
              var todayHumidity = response.main.humidity;
@@ -35,7 +36,7 @@ $.ajax({
                               "<br>" +
                               "Temperature: " + todayForecast + "F" + "<br>" +                          
                               todayDesc + "<br> " +
-                              "Wind Speed: " + todayWind + "MPH " + "<br>" +
+                              "Wind Speed: " + "<br>" + todayWind + "MPH " + "<br>" +
                               "Humidity: " + todayHumidity + "% " + "</div>"
                         );
                         
@@ -177,4 +178,4 @@ function init() {
         }
         cityHistory()
 }
-
+})
